@@ -15,17 +15,17 @@
  */
 
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 31
+    namespace  "com.example.android.kotlincoroutines"
+
+    compileSdk 34
     defaultConfig {
         applicationId "com.example.android.kotlincoroutines"
-        minSdkVersion 21
-        targetSdkVersion 31
+        minSdkVersion 28
+        targetSdk  34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -52,10 +52,40 @@ android {
 
 dependencies {
     // dependencies are defined in ext arrays in coroutines-codelab/build.gradle
-    implementation libraries
-    kapt librariesKapt
-    debugImplementation librariesDebug
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.kotlinx.coroutines.android
 
-    testImplementation testLibraries
-    androidTestImplementation androidTestLibraries
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
+    implementation libs.material
+
+    implementation libs.androidx.livedata
+    implementation libs.androidx.viewmodel
+
+    implementation libs.androidx.work
+
+    implementation libs.androidx.room
+    implementation libs.gson
+    implementation libs.retrofit2.converter.gson
+    implementation libs.retrofit2
+
+
+    kapt libs.kapt.room.compiler
+
+    debugImplementation libs.debug.truth
+
+    testImplementation libs.test.junit
+    testImplementation libs.test.kotlinx.coroutines
+    testImplementation libs.test.mockito
+    testImplementation libs.test.arch
+
+    androidTestImplementation libs.test.junit
+    androidTestImplementation libs.test.kotlinx.coroutines
+    androidTestImplementation libs.androidTest.runner
+    androidTestImplementation libs.androidTest.rules
+    androidTestImplementation libs.androidTest.espresso.core
+    androidTestImplementation libs.androidTest.espresso.contrib
+    androidTestImplementation libs.androidTest.espresso.intents
+    androidTestImplementation libs.androidTest.arch
+    androidTestImplementation libs.androidTest.work
 }
