@@ -40,4 +40,8 @@ androidTest-espresso-intents = "androidx.test.espresso:espresso-intents:3.4.0"
 androidTest-arch = "androidx.arch.core:core-testing:2.1.0" #  Architecture Components testing libraries
 androidTest-work = "androidx.work:work-testing:2.7.1"#  Architecture Components testing libraries
 
+# Plugin
+plugin-android-gradle = 'com.android.tools.build:gradle:8.5.0'
+plugin-kotlin-gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0"
+
 [plugins]

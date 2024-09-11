@@ -54,21 +54,16 @@ dependencies {
     // dependencies are defined in ext arrays in coroutines-codelab/build.gradle
     implementation libs.kotlinx.coroutines.core
     implementation libs.kotlinx.coroutines.android
-
     implementation libs.androidx.appcompat
     implementation libs.androidx.constraintlayout
     implementation libs.material
-
     implementation libs.androidx.livedata
     implementation libs.androidx.viewmodel
-
     implementation libs.androidx.work
-
     implementation libs.androidx.room
     implementation libs.gson
     implementation libs.retrofit2.converter.gson
     implementation libs.retrofit2
-
 
     kapt libs.kapt.room.compiler
 

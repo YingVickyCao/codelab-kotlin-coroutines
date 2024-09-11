@@ -69,14 +69,12 @@ dependencies {
 
     kapt libs.kapt.room.compiler
 
-
     debugImplementation libs.debug.truth
 
     testImplementation libs.test.junit
     testImplementation libs.test.kotlinx.coroutines
     testImplementation libs.test.mockito
     testImplementation libs.test.arch
-
 
     androidTestImplementation libs.test.junit
     androidTestImplementation libs.test.kotlinx.coroutines
