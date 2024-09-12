@@ -15,5 +15,3 @@
  */
 
 include ':start', ':finished_code'
-
-include ':test'
