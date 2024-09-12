@@ -18,10 +18,10 @@ package com.example.android.kotlincoroutines.main
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.kotlincoroutines.R
 import com.google.android.material.snackbar.Snackbar
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        val rootLayout: ConstraintLayout = findViewById(R.id.rootLayout)
+        val rootLayout: ViewGroup = findViewById(R.id.rootLayout)
         val title: TextView = findViewById(R.id.title)
         val taps: TextView = findViewById(R.id.taps)
         val spinner: ProgressBar = findViewById(R.id.spinner)
