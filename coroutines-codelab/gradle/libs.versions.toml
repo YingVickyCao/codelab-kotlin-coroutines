@@ -15,8 +15,9 @@ androidx-activity = "androidx.activity:activity-ktx:1.9.2"
 androidx-constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 material = "com.google.android.material:material:1.10.0"
 # ViewModel and LiveData
-androidx-livedata = "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
-androidx-viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
+androidx-lifecycle-livedata = "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
+androidx-lifecycle-viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
+androidx-lifecycle-only = "androidx.lifecycle:lifecycle-runtime-ktx:2.8.5"
 androidx-work = "androidx.work:work-runtime-ktx:2.8.1"
 # Room for database
 androidx-room = "androidx.room:room-ktx:2.5.1"
