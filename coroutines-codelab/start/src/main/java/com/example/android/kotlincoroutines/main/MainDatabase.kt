@@ -47,7 +47,7 @@ interface TitleDao {
 }
 
 /**
- * TitleDatabase provides a reference to the dao to repositories
+ * TitleDatabase provides a reference to the dao to rep     ositories
  */
 @Database(entities = [Title::class], version = 1, exportSchema = false)
 abstract class TitleDatabase : RoomDatabase() {

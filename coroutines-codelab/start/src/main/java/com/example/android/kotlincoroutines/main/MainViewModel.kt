@@ -200,15 +200,13 @@ class MainViewModel(private val repository: TitleRepository) : ViewModel() {
     // Using coroutine in high order functions
     private fun launchDataLoad(block: suspend () -> Unit): Job {
         return viewModelScope.launch {
-            viewModelScope.launch {
-                try {
-                    _spinner.value = true
-                    block()
-                } catch (error: TitleRefreshError) {
-                    _snackBar.value = error.message
-                } finally {
-                    _spinner.value = false
-                }
+            try {
+                _spinner.value = true
+                block()
+            } catch (error: TitleRefreshError) {
+                _snackBar.value = error.message
+            } finally {
+                _spinner.value = false
             }
         }
     }
