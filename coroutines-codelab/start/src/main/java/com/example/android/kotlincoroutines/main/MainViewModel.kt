@@ -16,11 +16,16 @@
 
 package com.example.android.kotlincoroutines.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.android.kotlincoroutines.util.BACKGROUND
 import com.example.android.kotlincoroutines.util.singleArgViewModelFactory
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * MainViewModel designed to store and manage UI-related data in a lifecycle conscious way. This
@@ -30,6 +35,8 @@ import com.example.android.kotlincoroutines.util.singleArgViewModelFactory
  *
  * @param repository the data source this ViewModel will fetch results from.
  */
+private const val TAG = "MainViewModel"
+
 class MainViewModel(private val repository: TitleRepository) : ViewModel() {
 
     companion object {
@@ -102,9 +109,41 @@ class MainViewModel(private val repository: TitleRepository) : ViewModel() {
      */
     private fun updateTaps() {
         // TODO: Convert updateTaps to use coroutines
+//        updateTaps_v1()
+//        updateTaps_v2()
+        updateTaps_v3()
+    }
+
+    // block the UI
+    private fun updateTaps_v1() {
+        tapCount++
+        // updateTaps: Thread(main,2)
+        Log.e(TAG, "updateTaps: Thread(${Thread.currentThread().name},${Thread.currentThread().id})")
+        Thread.sleep(1_000)
+        _taps.postValue("${tapCount} taps")
+    }
+
+    // Uses BACKGROUND ExecutorService to run in background thread, not block the UI
+    private fun updateTaps_v2() {
         tapCount++
         BACKGROUND.submit {
+            // updateTaps: Thread(pool-3-thread-2,108)
+            System.err.println("updateTaps: Thread(${Thread.currentThread().name},${Thread.currentThread().id})")
             Thread.sleep(1_000)
+            _taps.postValue("${tapCount} taps")
+        }
+    }
+
+    private fun updateTaps_v3() {
+        // launch a coroutine in viewModelScope
+        viewModelScope.launch {
+            tapCount++
+            // updateTaps: Thread(main,2)
+            System.err.println("updateTaps: Thread(${Thread.currentThread().name},${Thread.currentThread().id})")
+            // ven though this coroutine runs on the main thread, delay won't block the thread for one second. Instead, the dispatcher will schedule the coroutine to resume in one second at the next statement.
+            delay(1_000L)
+            // resume in the maindispatcher
+            // _snackbar.value can be called directly from main thread
             _taps.postValue("${tapCount} taps")
         }
     }
@@ -121,6 +160,13 @@ class MainViewModel(private val repository: TitleRepository) : ViewModel() {
      */
     fun refreshTitle() {
         // TODO: Convert refreshTitle to use coroutines
+        refreshTitle_v1()
+        refreshTitle_v2()
+        refreshTitle_v3()
+    }
+
+
+    private fun refreshTitle_v1() {
         _spinner.value = true
         repository.refreshTitleWithCallbacks(object : TitleRefreshCallback {
             override fun onCompleted() {
@@ -132,5 +178,38 @@ class MainViewModel(private val repository: TitleRepository) : ViewModel() {
                 _spinner.postValue(false)
             }
         })
+    }
+
+    private fun refreshTitle_v2() {
+        viewModelScope.launch {
+            try {
+                _spinner.value = true
+                repository.refreshTitle()
+            } catch (error: TitleRefreshError) {
+                _snackBar.value = error.message
+            } finally {
+                _spinner.value = false
+            }
+        }
+    }
+
+    private fun refreshTitle_v3() {
+        launchDataLoad { repository.refreshTitle() }
+    }
+
+    // Using coroutine in high order functions
+    private fun launchDataLoad(block: suspend () -> Unit): Job {
+        return viewModelScope.launch {
+            viewModelScope.launch {
+                try {
+                    _spinner.value = true
+                    block()
+                } catch (error: TitleRefreshError) {
+                    _snackBar.value = error.message
+                } finally {
+                    _spinner.value = false
+                }
+            }
+        }
     }
 }

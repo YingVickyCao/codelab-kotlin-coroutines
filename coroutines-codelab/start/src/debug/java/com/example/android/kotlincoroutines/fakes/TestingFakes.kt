@@ -93,6 +93,7 @@ class TitleDaoFake(initialTitle: String) : TitleDao {
  */
 class MainNetworkFake(var result: String) : MainNetwork {
     override fun fetchNextTitle() = MakeCompilerHappyForStarterCode() // TODO: replace with `result`
+    override suspend fun fetchNextTitle2() = result // TODO: replace with `result`
 }
 
 /**
@@ -102,6 +103,7 @@ class MainNetworkCompletableFake() : MainNetwork {
     private var completable = CompletableDeferred<String>()
 
     override fun fetchNextTitle() = MakeCompilerHappyForStarterCode() // TODO: replace with `completable.await()`
+    override suspend fun fetchNextTitle2() = completable.await() // TODO: replace with `completable.await()`
 
     fun sendCompletionToAllCurrentRequests(result: String) {
         completable.complete(result)
@@ -112,7 +114,6 @@ class MainNetworkCompletableFake() : MainNetwork {
         completable.completeExceptionally(throwable)
         completable = CompletableDeferred()
     }
-
 }
 
 typealias MakeCompilerHappyForStarterCode = FakeCallForRetrofit<String>

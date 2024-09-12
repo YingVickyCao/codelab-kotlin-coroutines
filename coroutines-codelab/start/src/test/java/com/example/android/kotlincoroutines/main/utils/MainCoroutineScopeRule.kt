@@ -18,8 +18,11 @@ package com.example.android.kotlincoroutines.main.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.rules.TestWatcher
@@ -61,10 +64,12 @@ import org.junit.runner.Description
  *
  * @param dispatcher if provided, this [TestCoroutineDispatcher] will be used.
  */
+// 'TestCoroutineDispatcher' is deprecated. The execution order of `TestCoroutineDispatcher` can be confusing, and the mechanism of pausing is typically misunderstood. Please use `StandardTestDispatcher` or `UnconfinedTestDispatcher` instead.
 @ExperimentalCoroutinesApi
-class MainCoroutineScopeRule(val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()) :
-        TestWatcher(),
-        TestCoroutineScope by TestCoroutineScope(dispatcher) {
+class MainCoroutineScopeRule(val dispatcher: TestDispatcher = UnconfinedTestDispatcher()) :
+    TestWatcher(),
+    // 'TestCoroutineScope' is deprecated. Use `TestScope` in combination with `runTest` instead.Please see the migration guide for details: https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-test/MIGRATION.md
+    TestCoroutineScope by TestCoroutineScope(dispatcher) {
     override fun starting(description: Description?) {
         super.starting(description)
         // If your codebase allows the injection of other dispatchers like
